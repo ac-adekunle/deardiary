@@ -1,3 +1,4 @@
+require 'date'
 require_relative 'diary'
 
 describe Diary do 
@@ -11,14 +12,10 @@ describe Diary do
     expect(File.exist?(diary.name+'.txt')).to eq true
   end
 
-  it 'should #append the text file' do
+  it 'should #append the text file with the current date and user response' do
     diary.append("Wordsmith")
     entries = File.open(diary.name+'.txt').to_a
-    expect(entries.last.chomp).to eq("Wordsmith")
-  end
-
-  xit 'should add current date to user input' do
-  
+    expect(entries.last.chomp).to eq(Date.today.to_s+ ' | ' +"Wordsmith")
   end
 
   xit 'should encode user input' do

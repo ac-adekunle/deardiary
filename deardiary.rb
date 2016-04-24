@@ -1,3 +1,4 @@
+require 'date'
 require_relative 'diary'
 class Session
 
@@ -14,17 +15,17 @@ class Session
 		  a = Diary.new({name: name})
 		  puts 'display, append, exit'
 		  response = gets.chomp
-		  if response == 'append'
+		  if response == 'append'    #Add diary entry
 		  	puts 'Type entry and press enter'
-		  	entry = gets.chomp
-		 	a.append(entry)
+		  	response = gets.chomp
+		 	a.append(response)
 		 	exit
 		  elsif response == 'display'
 		  	a.display
 		  	exit
 		  end
 		else
-		  'Unrecognized command'
+		  'Command not found'
 		  exit
 		end
 	end

@@ -6,7 +6,8 @@ class Diary
   	@file = File.open(name+".txt", "a+")
   end
 
-  def append(entry)
+  def append(response)
+  	entry = Date.today.to_s + ' | ' +response
   	file.puts(entry)
   	file.close
   	'Your entry has been saved.'
