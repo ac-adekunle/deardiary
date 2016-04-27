@@ -1,52 +1,39 @@
 require 'date'
 require_relative 'diary'
+require_relative 'prompter'
 
 class Session
-
+  extend Prompter
   def run
 	loop do
-	  puts '------- MAIN MENU -------'
-	  puts 'create -create a new diary'
-	  puts 'login -log in to an existing diary'
-	  puts 'quit -exit the program'
-	  puts 'Enter a command'
-	  
-	  response = gets.chomp
+	  main_menu_response = Session.main_menu
 		
-		if response == 'create' || response == 'login'
+		if main_menu_response == 'create' || main_menu_response == 'login'
 		  puts 'Enter the diary name'
 		  name = gets.chomp.downcase.split.join
-
 		  loop do
 		  	diary = Diary.new({name: name})
-		    puts '****** '+ name + ' ******'
-		    puts 'display -display entries' 
-		    puts 'append -add an entry' 
-		    puts 'back -back to main menu'
-		    puts 'quit -exit the program'
-		    puts 'Enter a command'
-		    response = gets.chomp
-		  	  if response == 'append'    
+		  	diary_menu_response = Session.diary_menu(name)
+		  	  if diary_menu_response == 'append'    
 		  	    puts 'Type entry and press enter to save'
-		  	    response = gets.chomp
-		 	    diary.append(response)
-		      elsif response == 'display'
+		  	    diary_entry = gets.chomp
+		 	    diary.append(diary_entry)
+		      elsif diary_menu_response == 'display'
 		  	    diary.display
-		  	  elsif response == 'back'
+		  	  elsif diary_menu_response == 'back'
 		  	  	break
-		      elsif response == 'quit'
+		      elsif diary_menu_response == 'quit'
 		      	exit
 		      else
 		      	puts 'Command not found. Would you like to "append","display", or go "back" to the main menu?'
 		      end
 		    diary.close	
-
 		   end
 
-	    elsif response == 'quit'
+	    elsif main_menu_response == 'quit'
 	      break
 	    else
-		  puts 'Command not found. Would you like to "create", "login", or "cancel"?'
+		  puts 'Command not found. Would you like to "create", "login", or "quit"?'
 	    end
 
 	end
