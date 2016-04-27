@@ -1,83 +1,61 @@
 require 'date'
 require_relative 'diary'
+
 class Session
 
-	def run
-	  puts 'create or login?'
+  def run
+	loop do
+	  puts '------- MAIN MENU -------'
+	  puts 'create -create a new diary'
+	  puts 'login -log in to an existing diary'
+	  puts 'quit -exit the program'
+	  puts 'Enter a command'
+	  
 	  response = gets.chomp
-		if response == 'create'
-		  puts 'Provide a name.'
-		  name = gets.chomp
-		  Diary.new({name: name})
-		elsif response == 'login'
-		  puts 'Name?'
-		  name = gets.chomp
-		  a = Diary.new({name: name})
-		  puts 'display, append, exit'
-		  response = gets.chomp
-		  if response == 'append'    #Add diary entry
-		  	puts 'Type entry and press enter'
-		  	response = gets.chomp
-		 	a.append(response)
-		 	exit
-		  elsif response == 'display'
-		  	a.display
-		  	exit
-		  end
-		else
-		  'Command not found'
-		  exit
-		end
+		
+		if response == 'create' || response == 'login'
+		  puts 'Enter the diary name'
+		  name = gets.chomp.downcase.split.join
+
+		  loop do
+		  	diary = Diary.new({name: name})
+		    puts '****** '+ name + ' ******'
+		    puts 'display -display entries' 
+		    puts 'append -add an entry' 
+		    puts 'back -back to main menu'
+		    puts 'quit -exit the program'
+		    puts 'Enter a command'
+		    response = gets.chomp
+		  	  if response == 'append'    
+		  	    puts 'Type entry and press enter to save'
+		  	    response = gets.chomp
+		 	    diary.append(response)
+		      elsif response == 'display'
+		  	    diary.display
+		  	  elsif response == 'back'
+		  	  	break
+		      elsif response == 'quit'
+		      	exit
+		      else
+		      	puts 'Command not found. Would you like to "append","display", or go "back" to the main menu?'
+		      end
+		    diary.close	
+
+		   end
+
+	    elsif response == 'quit'
+	      break
+	    else
+		  puts 'Command not found. Would you like to "create", "login", or "cancel"?'
+	    end
+
 	end
+  end
+
 end
 
 a = Session.new
 a.run
-
-#start
-
-#ask for create or login
-	#if create, create new diary, ask for login or exit
-
-		#if exit, exit
-		#if login, authenticate - ask for username and password
-			#if incorrect, ask to reenter
-
-			#if correct, show menu of options 
-				#display
-				#add
-				#exit
-
-			#Exit
-				#Exit program
-
-			#Add
-				#ask for entry, to cancel, enter 'cancel'
-					#if cancel, show menu of options
-					#else
-						#open diary.txt 
-						#if already an entry from same day, ask whether to overwrite or cancel
-							#if cancel,show menu of options
-							#else if overwrite, delete last entry, add new entry, close
-						#else, add entry along with today's date, close diary.txt, show confirmation, show menu of options
-			#display
-				#display contents of diary.text
-
-
-# ruby deardiary.rb 
-# >> Login or Create
-# Create
-# >> Name of Diary
-# Lola
-# >>Password
-# Adekunle
-# >>Login, please enter Name
-# Lola
-# >>Password
-# Adekunle
-# >>Valid. Would you like to add, display, or exit
-
-
 
 
 

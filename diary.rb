@@ -9,14 +9,6 @@ class Diary
   	@file = File.open(name+".txt", "a+")
   end
 
-  def append(response)
-  	entry = Date.today.to_s + ' | ' + response
-  	encrypted_entry = self.encrypt(entry)
-  	file.puts(encrypted_entry)
-  	file.close
-  	'Your entry has been saved.'
-  end
-
   def encrypt(plain)
     Crypta.encrypt(plain)
   end
@@ -25,13 +17,22 @@ class Diary
   	Crypta.decrypt(encrypted)
   end
 
+  def append(response)
+  	entry = Date.today.to_s + ' | ' + response
+  	encrypted_entry = self.encrypt(entry)
+  	file.puts(encrypted_entry)
+  end
+
   def display
   	File.foreach(file) do |x| 
   	  print self.decrypt(x.chomp) + "\n"
   	end
+  end
+
+  def close
   	file.close
   end
-  
+
 end
 
 
