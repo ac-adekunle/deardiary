@@ -2,19 +2,12 @@ require 'date'
 require_relative 'encryptor'
 
 class Diary
+  include Crypta
   attr_reader :name, :file
   
   def initialize(args)
   	@name =  args.fetch(:name)
   	@file = File.open(name+".txt", "a+")
-  end
-
-  def encrypt(plain)
-    Crypta.encrypt(plain)
-  end
-
-  def decrypt(encrypted)
-  	Crypta.decrypt(encrypted)
   end
 
   def append(response)

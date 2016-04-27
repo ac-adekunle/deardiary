@@ -23,5 +23,4 @@ describe Diary do
     entries = File.open(diary.name+'.txt').to_a
     expect(diary.decrypt(entries.last.chomp)).to eq(Date.today.to_s+ ' | ' +"Wordsmith")
   end
-
 end
