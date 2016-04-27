@@ -12,19 +12,16 @@ describe Diary do
     expect(File.exist?(diary.name+'.txt')).to eq true
   end
 
-  it 'should #append the text file with the current date and user response' do
+  it 'should encrypt the entries' do
+	  diary.append("Artist")
+    entries = File.open(diary.name+'.txt').to_a
+    expect(entries.last.chomp).to_not eq(Date.today.to_s+ ' | ' +"Artist")
+  end
+
+  it 'should decrypt the encrypted entries' do
     diary.append("Wordsmith")
     entries = File.open(diary.name+'.txt').to_a
-    expect(entries.last.chomp).to eq(Date.today.to_s+ ' | ' +"Wordsmith")
-  end
-
-  xit 'should encode user input' do
-	
-  end
-  
-
-  xit 'should decode encoded text file' do
-  
+    expect(diary.decrypt(entries.last.chomp)).to eq(Date.today.to_s+ ' | ' +"Wordsmith")
   end
 
 end
